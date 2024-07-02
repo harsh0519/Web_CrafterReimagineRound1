@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./menu.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="icon" href="../css/images/file.png" type="image/x-icon" />
     <title>Tim Horton | Menu</title>
   </head>
@@ -53,9 +54,12 @@
     <div class="seven">
       <h1>menu| all-DAY</h1>
     </div>
-   <a href="../index.html" class="menutomain"> <span>---Back To Menu</span></a>
+    <a href="../index.html" class="menutomain"> <span>---Back To Menu</span></a>
     <div class="menuhead">
-      <div class="container">
+      <div
+        class="container"
+        data-aos="flip-up"
+      >
         <div class="card">
           <div class="imgBx">
             <img src="./allday/1.png" alt="" />
@@ -76,7 +80,7 @@
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container" data-aos="flip-up">
         <div class="card">
           <div class="imgBx">
             <img src="./allday/2.png" alt="" />
@@ -97,7 +101,7 @@
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container" data-aos="flip-up">
         <div class="card">
           <div class="imgBx">
             <img src="./allday/3.png" alt="" />
@@ -118,7 +122,7 @@
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container" data-aos="flip-up">
         <div class="card">
           <div class="imgBx">
             <img src="./allday/4.png" alt="" />
@@ -139,7 +143,7 @@
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container" data-aos="flip-up">
         <div class="card">
           <div class="imgBx">
             <img src="./allday/5.png" alt="" />
@@ -160,7 +164,7 @@
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container" data-aos="flip-up">
         <div class="card">
           <div class="imgBx">
             <img src="./allday/6.png" alt="" />
@@ -185,5 +189,9 @@
     <!-- Jquery needed -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="menu.js"></script>
+     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
   </body>
 </html>
