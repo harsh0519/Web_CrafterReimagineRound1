@@ -1,3 +1,4 @@
+//navbar
 const open = document.querySelector(".container");
 const close = document.querySelector(".close");
 var tl = gsap.timeline({ defaults: { duration: 1, ease: "expo.inOut" } });
@@ -28,6 +29,7 @@ const clear = (el) => {
     i.className = "";
   }
 };
+//pointer 
 var mouse = { x: 0, y: 0 };
 var dotPos = { x: 0, y: 0 };
 var ballPos = { x: 0, y: 0 };
@@ -38,35 +40,24 @@ var ball = document.getElementById("ball");
 var isMouseMoving = false;
 var idleTimer;
 var ballAnimation;
-
-// Başlangıçta ball öğesini ortala
 gsap.set(dot, { xPercent: -50, yPercent: -50 });
 gsap.set(ball, { xPercent: -50, yPercent: -50 });
-
-// Fare hareketini algılayan fonksiyon
 document.addEventListener("mousemove", (e) => {
   mouse.x = e.pageX;
   mouse.y = e.pageY;
   isMouseMoving = true;
-  clearTimeout(idleTimer); // Zamanlayıcıyı sıfırla
+  clearTimeout(idleTimer); 
   idleTimer = setTimeout(() => {
     isMouseMoving = false;
-  }, 2000); // 2 saniye hareketsizlikten sonra aktif değil
+  }, 2000); 
 });
-
-// Dot ve ball pozisyonlarını güncelle
 gsap.ticker.add(() => {
-  // Dot hareketi
   dotPos.x += (mouse.x - dotPos.x) * dotRatio;
   dotPos.y += (mouse.y - dotPos.y) * dotRatio;
   gsap.set(dot, { x: dotPos.x, y: dotPos.y });
-
-  // Ball hareketi (dot'u takip eder)
   ballPos.x += (dotPos.x - ballPos.x) * ballRatio;
   ballPos.y += (dotPos.y - ballPos.y) * ballRatio;
   gsap.set(ball, { x: ballPos.x, y: ballPos.y });
-
-  // Fare hareketsizken ball büyüyüp küçülsün
   if (!isMouseMoving && !ballAnimation) {
     ballAnimation = gsap
       .timeline({ repeat: -1, yoyo: true, ease: "power1.inOut" })
@@ -77,8 +68,91 @@ gsap.ticker.add(() => {
     gsap.to(ball, { scale: 1, duration: 0.75, ease: "power1.inOut" });
   }
 });
+//loader
 function hideLoader() {
   const loader = document.querySelector(".loading");
   loader.classList.add("hidden");
 }
 setTimeout(hideLoader, 8000);
+//snowfake
+document.addEventListener("DOMContentLoaded", function () {
+  const snowContainer = document.querySelector(".snow-container");
+
+  const particlesPerThousandPixels = 0.1;
+  const fallSpeed = 1.25;
+  const pauseWhenNotActive = true;
+  const maxSnowflakes = 200;
+  const snowflakes = [];
+
+  let snowflakeInterval;
+  let isTabActive = true;
+
+  function resetSnowflake(snowflake) {
+    const size = Math.random() * 5 + 1;
+    const viewportWidth = window.innerWidth - size; // Adjust for snowflake size
+    const viewportHeight = window.innerHeight;
+
+    snowflake.style.width = `${size}px`;
+    snowflake.style.height = `${size}px`;
+    snowflake.style.left = `${Math.random() * viewportWidth}px`; // Constrain within viewport width
+    snowflake.style.top = `-${size}px`;
+
+    const animationDuration = (Math.random() * 3 + 2) / fallSpeed;
+    snowflake.style.animationDuration = `${animationDuration}s`;
+    snowflake.style.animationTimingFunction = "linear";
+    snowflake.style.animationName =
+      Math.random() < 0.5 ? "fall" : "diagonal-fall";
+
+    setTimeout(() => {
+      if (parseInt(snowflake.style.top, 10) < viewportHeight) {
+        resetSnowflake(snowflake);
+      } else {
+        snowflake.remove(); // Remove when it goes off the bottom edge
+      }
+    }, animationDuration * 1000);
+  }
+
+  function createSnowflake() {
+    if (snowflakes.length < maxSnowflakes) {
+      const snowflake = document.createElement("div");
+      snowflake.classList.add("snowflake");
+      snowflakes.push(snowflake);
+      snowContainer.appendChild(snowflake);
+      resetSnowflake(snowflake);
+    }
+  }
+
+  function generateSnowflakes() {
+    const numberOfParticles =
+      Math.ceil((window.innerWidth * window.innerHeight) / 1000) *
+      particlesPerThousandPixels;
+    const interval = 5000 / numberOfParticles;
+
+    clearInterval(snowflakeInterval);
+    snowflakeInterval = setInterval(() => {
+      if (isTabActive && snowflakes.length < maxSnowflakes) {
+        requestAnimationFrame(createSnowflake);
+      }
+    }, interval);
+  }
+
+  function handleVisibilityChange() {
+    if (!pauseWhenNotActive) return;
+
+    isTabActive = !document.hidden;
+    if (isTabActive) {
+      generateSnowflakes();
+    } else {
+      clearInterval(snowflakeInterval);
+    }
+  }
+
+  generateSnowflakes();
+
+  window.addEventListener("resize", () => {
+    clearInterval(snowflakeInterval);
+    setTimeout(generateSnowflakes, 1000);
+  });
+
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+});
